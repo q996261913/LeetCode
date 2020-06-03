@@ -20,4 +20,5 @@ public class SumNums {
         boolean flag=n>0&&(sum+=sumNum2(n-1))>0;
         return  sum;
     }
+
 }
