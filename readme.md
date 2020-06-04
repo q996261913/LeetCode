@@ -53,7 +53,7 @@
         int n=height.length;
         if(n==0)
             return 0;
-        int[][] dp=new int[n][2];
+        int[][] dp=new int[n][2W];
         //dp[i][0]表示i左边的最大值
         //dp[i][1]表示i右边的最大值
         dp[0][0]=height[0];
@@ -163,6 +163,86 @@ class Solution{
     }
 }
 ```
+### 238- 求除了自己之外的数组的乘积
+
+> 给你一个长度为 n 的整数数组`nums` ，其中 n > 1，返回输出数组 output ，其中 output[i] 等于`nums` 中除 `nums[i]` 之外其余各元素的乘积。
+
+```
+输入: [1,2,3,4]
+输出: [24,12,8,6]
+```
+
+#### 方法一:两个dp数组
+
+```java
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+         //前缀之乘积dp数组
+        int[] front=new int[nums.length];
+        //后缀之乘积dp数组
+        int[] rear=new int[nums.length];
+        //构造前缀dp
+        front[0]=1;
+        for(int i=1;i<front.length;i++)
+            front[i]=front[i-1]*nums[i-1];
+        //构造后缀dp
+        rear[nums.length-1]=1;
+        for(int i=nums.length-2;i>=0;i--)
+            rear[i]=rear[i+1]*nums[i+1];
+        int[] ans=new int[nums.length];
+        for(int i=0;i<ans.length;i++)
+            ans[i]=front[i]*rear[i];
+        return  ans;
+    }
+}
+```
+
+#### 方法二 一个dp数组,白嫖ans
+
+```java
+public  int[] productExceptSelf2(int[] nums){
+    	//输出的数组,不需要前缀数组了
+        int[] ans=new int[nums.length];
+        //后缀之乘积dp数组
+        int[] rear=new int[nums.length];
+        //构造前缀dp
+        ans[0]=1;
+        for(int i=1;i<ans.length;i++)
+            ans[i]=ans[i-1]*nums[i-1];
+        //构造后缀dp
+        rear[nums.length-1]=1;
+        for(int i=nums.length-2;i>=0;i--)
+            rear[i]=rear[i+1]*nums[i+1];
+
+        for(int i=0;i<ans.length;i++)
+            ans[i]=ans[i]*rear[i];
+        return  ans;
+    }java
+```
+
+#### 方法三  循环迭代数组,而不需要存储
+
+```java
+/**
+     * 常数空间复杂度,最优解
+     * @param nums
+     * @return
+     */
+    public int[] productExceptSelf3(int[] nums){
+        int front =1,rear=1,ans[]=new int[nums.length];
+        //迭代更新front,
+        for(int i=0;i< nums.length;i++){
+            ans[i]=front;
+            front=front*nums[i];
+        }
+        for(int i=nums.length-1;i>=0;i--){
+            ans[i]=ans[i]*rear;
+            rear=rear*nums[i];
+        }
+        return  ans;
+    }
+```
+
 
 ### 827-求爱丽丝21点的胜率
 
