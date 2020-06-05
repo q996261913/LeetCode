@@ -1,3 +1,49 @@
+### 29-顺时针打印矩阵
+
+**注意此矩阵不一定是方阵**
+![image-20200605215849007](LeetCode.assets/image-20200605215849007.png)
+```java
+  public  int[]  spiralOrder(int[][] matrix){
+        if(matrix.length==0)
+            return new int[0];
+        //四个方位边界,up和left一定是0,
+      	//而初始化的right应该是首行的长度-1,
+      	//down应该是matrix的最大长度-1
+        int up=0,down=matrix.length-1,left=0,right=matrix[0].length-1;
+        //已经记录个数
+        int count=0;
+		//res数组的长度应该是长度*宽度
+        int[] res=new int[(right+1)*(down+1)];
+      //死循环
+        while (true){
+            //从左向右,然后up++
+            for(int i=left;i<=right;i++)
+                res[count++]=matrix[up][i];
+            if(++up>down)
+                break;
+            //从上到下,然后right--
+            for(int i=up;i<=down;i++)
+                res[count++]=matrix[i][right];
+            if(--right<left)
+                break;
+            //从右向左,然后down--
+            for(int i=right;i>=left;i--)
+                res[count++]=matrix[down][i];
+            if(--down<up)
+                break;
+            //从下到上,然后left++
+            for(int i=down;i>=up;i--)
+                res[count++]=matrix[i][left];
+            if(++left>right)
+                break;
+        }
+        return res;
+
+    }
+```
+
+
+
 ### 46-接雨水
 
 ![img](LeetCode.assets/640.png)
